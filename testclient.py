@@ -1,5 +1,6 @@
 import socket
 import logging
+import time
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s '
@@ -20,8 +21,13 @@ def client(string):
 
 if __name__ == "__main__":
     client("test bang #1")
+    time.sleep(1)
     client("test bang #2")
+    time.sleep(1)
     client("test bang #3")
+    time.sleep(1)
     client("test bang #4")
+    time.sleep(1)
     client("test bang #5")
+    time.sleep(1)
     client("test bang #6")

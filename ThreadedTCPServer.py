@@ -1,5 +1,6 @@
 from SocketServer import ThreadingMixIn
 from Queue import Queue
+import time
 import socket
 import logging
 import threading
@@ -12,15 +13,18 @@ logging.basicConfig(level=logging.DEBUG,
 
 class ThreadedTCPRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
+        file = open('test.log', 'wb')
         data = self.request.recv(1024)
         cur_thread = threading.current_thread()
-        response = "{}: {}".format(cur_thread.name, data)
+        response = "{} {}: {}\n".format(time.ctime(), cur_thread.name, data)
+        file.write(response)
         self.request.sendall(response)
+        file.close()
 
 
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     # use a thread pool instead of a new thread on every request
-    numThreads = 10
+    numThreads = 50
     allow_reuse_address = True
 
     def serve_forever(self):
